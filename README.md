@@ -1,6 +1,6 @@
 # stm32f103
 
-## Rquirements
+## Requirements
 
 ```console
 $ sudo apt install -y gcc-arm-none-eabi gdb-arm-none-eabi openocd ldc
