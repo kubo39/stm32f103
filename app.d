@@ -1,5 +1,3 @@
-import ldc.attributes;
-
 extern(C):
 @nogc:
 nothrow:
