@@ -1,3 +1,5 @@
+// -*- d -*-
+
 extern(C):
 @nogc:
 nothrow:
