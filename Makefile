@@ -1,25 +1,33 @@
+include build/main.mk
+
 .PHONY: all clean
 
-TARGET = stm32f103.bin
+TARGET = libstm32f103nucleo.a
 
-SRC = $(shell find ./ -name "*.d")
-OBJ = app.o
+SRCS = \
+	$(shell find ./source -name "*.d") \
+	$(shell find ./cortexm/source -name "*.d")
 
-LDC = ldc2
-LD = arm-none-eabi-ld
+OBJDIR = out
+EXDIR = examples
 
-LDCFLAGS = -mtriple=thumbv7m-none-linux-gnueabi -defaultlib= -release -c -g
-LDFLAGS = -T layout.ld --gc-section -nostartfiles
+LDCFLAGS = -mtriple=thumbv7m-none-linux-gnueabi -defaultlib= -release -g -lib -od=$(OBJDIR) -of$(TARGET)
 
-.SUFFIXES: .d .o
+LINKFLAGS = \
+	-I./source \
+	-I./cortexm/source
 
 all: $(TARGET)
 
-$(TARGET): $(OBJ)
-	$(LD) $< $(LDFLAGS) -o $@
-
-.d.o: $(SRC)
-	$(LDC) $(LDCFLAGS) $<
+$(TARGET): $(SRCS)
+	$(LDC) $(LDCFLAGS) -op ${LINKFLGAS} $^
 
 clean:
-	$(RM) $(OBJ) $(TARGET)
+	$(RM) -r $(OBJDIR)/* $(TARGET)
+	$(MAKE) -C $(EXDIR)/itworks clean
+
+examples: $(TARGET)
+	$(MAKE) -C $(EXDIR)/itworks
+
+step-run: $(TARGET)
+	$(MAKE) -C $(EXDIR)/itworks run

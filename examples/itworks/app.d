@@ -1,12 +1,10 @@
-// -*- d -*-
+import stm32f103nucleo;
 
 extern(C):
 @nogc:
 nothrow:
 
-pragma(LDC_no_moduleinfo);
-
-void _reset()
+void main()
 {
     int y = void;
     auto x = 42;
@@ -14,6 +12,3 @@ void _reset()
 
     while (true) {}
 }
-
-
-
